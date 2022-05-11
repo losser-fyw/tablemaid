@@ -20,16 +20,17 @@ class tablemaid(QMainWindow):
         self.timer = QTimer()
         self.timer.timeout.connect(self.child.close)
         self.timer.start(3000)
+
         self.timer_image = QTimer()
         self.timer_image.timeout.connect(self.presentation)
         self.timer_image.start(1000)
+
         #设置主窗口
         self.resize(200,200)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.SubWindow)
         self.setContextMenuPolicy(Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.setMenu)
         self.repaint()
-
         self.setUI()
 
 
@@ -42,7 +43,6 @@ class tablemaid(QMainWindow):
         self.label.setScaledContents(True)
         self.petNum = 0
         self.presentation()
-
 
     def presentation(self):
         if(self.petNum==self.max_length):
@@ -93,7 +93,10 @@ class tablemaid(QMainWindow):
                 self.label.setPixmap(QPixmap('./images/1.jpg'))
             if (jud_x2 > jud_x1):
                 self.label.setPixmap(QPixmap('./images/3.jpg'))
-            event.accept()
+        self.timer_image.stop()
+        self.timer_image.start(500)
+        #self.label.setPixmap(QPixmap('./images/2.jpg'))
+        event.accept()
 
     #鼠标释放时, 取消绑定
 
@@ -104,6 +107,7 @@ class tablemaid(QMainWindow):
                 self.child.setPosition(self.x(),self.y())
                 self.child.show()
                 self.timer.start(3000)
+
             self.setCursor(QCursor(Qt.ArrowCursor))
 
 if __name__=="__main__":
