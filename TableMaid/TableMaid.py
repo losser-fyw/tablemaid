@@ -15,19 +15,24 @@ class tablemaid(QMainWindow):
         self.startpos = self.pos()
         self.petList = ['1', '2', '3']
         self.max_length = len(self.petList)
+        self.child = datedialog()
+        # 计时器
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.child.close)
+        self.timer.start(3000)
+        self.timer_image = QTimer()
+        self.timer_image.timeout.connect(self.presentation)
+        self.timer_image.start(1000)
         #设置主窗口
         self.resize(200,200)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.SubWindow)
         self.setContextMenuPolicy(Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.setMenu)
         self.repaint()
-        self.child = datedialog()
+
         self.setUI()
 
-        #计时器
-        self.timer=QTimer()
-        self.timer.timeout.connect(self.child.close)
-        self.timer.start(3000)
+
 
 
     def setUI(self):
@@ -35,12 +40,9 @@ class tablemaid(QMainWindow):
         self.label.resize(200, 200)
         self.label.setPixmap(QPixmap('images/2.jpg'))
         self.label.setScaledContents(True)
-        #
         self.petNum = 0
         self.presentation()
-        self.timer_image = QTimer()
-        self.timer_image.timeout.connect(self.presentation)
-        self.timer_image.start(1000)
+
 
     def presentation(self):
         if(self.petNum==self.max_length):
@@ -49,6 +51,7 @@ class tablemaid(QMainWindow):
         self.label.setPixmap(self.petImage)
         self.petNum += 1
         self.label.update()
+
 
     def setMenu(self,event):
         cmenu = QMenu(self)
@@ -62,9 +65,6 @@ class tablemaid(QMainWindow):
         Quit.triggered.connect(self.close)
         Quit.triggered.connect(self.child.close)
         mini=cmenu.addAction('最小化')
-
-
-
         cmenu.exec_(QCursor.pos())
 
 
@@ -72,7 +72,6 @@ class tablemaid(QMainWindow):
     #鼠标左键按下时, 宠物将和鼠标位置绑定'
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
-
             self.is_follow_mouse = True
             self.startpos = self.pos()
             self.timer.stop()
@@ -99,7 +98,6 @@ class tablemaid(QMainWindow):
     #鼠标释放时, 取消绑定
 
     def mouseReleaseEvent(self, event):
-
         if self.is_follow_mouse==True:
             self.is_follow_mouse = False
             if self.pos()==self.startpos:
