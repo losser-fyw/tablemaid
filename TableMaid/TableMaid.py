@@ -10,15 +10,17 @@ from dialog import datedialog
 class tablemaid(QMainWindow):
     def __init__(self):
         super().__init__()
+        # 变量区
+        self.is_follow_mouse = False
+        self.startpos = self.pos()
+        self.petList = ['1', '2', '3']
+        self.max_length = len(self.petList)
+        #设置主窗口
         self.resize(200,200)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.SubWindow)
         self.setContextMenuPolicy(Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.setMenu)
         self.repaint()
-        # 变量
-        self.is_follow_mouse = False
-        self.startpos = self.pos()
-
         self.child = datedialog()
         self.setUI()
 
@@ -33,7 +35,20 @@ class tablemaid(QMainWindow):
         self.label.resize(200, 200)
         self.label.setPixmap(QPixmap('images/2.jpg'))
         self.label.setScaledContents(True)
-        #右击菜单
+        #
+        self.petNum = 0
+        self.presentation()
+        self.timer_image = QTimer()
+        self.timer_image.timeout.connect(self.presentation)
+        self.timer_image.start(1000)
+
+    def presentation(self):
+        if(self.petNum==self.max_length):
+            self.petNum=0
+        self.petImage = QPixmap('./images/' + self.petList[1] + '.jpg')
+        self.label.setPixmap(self.petImage)
+        self.petNum += 1
+        self.label.update()
 
     def setMenu(self,event):
         cmenu = QMenu(self)
@@ -70,10 +85,15 @@ class tablemaid(QMainWindow):
     #鼠标移动, 则宠物也移动
 
     def mouseMoveEvent(self, event):
+        jud_x1 = self.x()
         if Qt.LeftButton and self.is_follow_mouse:
             self.move(event.globalPos() - self.mouse_drag_pos)
             self.child.setPosition(self.x(), self.y())
-            self.timer.start(3000)
+            jud_x2 = self.x()
+            if (jud_x1 > jud_x2):
+                self.label.setPixmap(QPixmap('./images/1.jpg'))
+            if (jud_x2 > jud_x1):
+                self.label.setPixmap(QPixmap('./images/3.jpg'))
             event.accept()
 
     #鼠标释放时, 取消绑定
@@ -85,7 +105,7 @@ class tablemaid(QMainWindow):
             if self.pos()==self.startpos:
                 self.child.setPosition(self.x(),self.y())
                 self.child.show()
-
+                self.timer.start(3000)
             self.setCursor(QCursor(Qt.ArrowCursor))
 
 if __name__=="__main__":
