@@ -1,3 +1,5 @@
+import os
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -5,11 +7,15 @@ import threading
 import random
 import sys
 import subprocess
+import pymongo
 from dialog import datedialog
+import setting
 
 class tablemaid(QMainWindow):
     def __init__(self):
         super().__init__()
+        #os.system("setting.py")
+        #print(setting.mydb.list_collection_names())
         # 变量区
         self.is_follow_mouse = False
         self.startpos = self.pos()
@@ -91,8 +97,10 @@ class tablemaid(QMainWindow):
             jud_x2 = self.x()
             if (jud_x1 > jud_x2):
                 self.label.setPixmap(QPixmap('./images/1.jpg'))
+                self.child.close()
             if (jud_x2 > jud_x1):
                 self.label.setPixmap(QPixmap('./images/3.jpg'))
+                self.child.close()
         self.timer_image.stop()
         self.timer_image.start(500)
         #self.label.setPixmap(QPixmap('./images/2.jpg'))
