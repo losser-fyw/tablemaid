@@ -102,7 +102,7 @@ class tablemaid(QMainWindow):
                 self.child.close()
         self.timer_image.stop()
         self.timer_image.start(500)
-        #self.label.setPixmap(QPixmap('./images/2.jpg'))
+
         event.accept()
 
     #鼠标释放时, 取消绑定
