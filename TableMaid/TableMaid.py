@@ -26,9 +26,11 @@ class tablemaid(QMainWindow):
         self.timer.timeout.connect(self.child.close)
         self.timer.start(3000)
 
-        self.timer_image = QTimer()
-        self.timer_image.timeout.connect(self.presentation)
-        self.timer_image.start(1000)
+
+        #self.timer_image = QTimer()
+        #self.timer_image.timeout.connect(self.presentation)
+        #self.timer_image.start(1000)
+
 
         #设置主窗口
         self.resize(200,200)
@@ -47,8 +49,8 @@ class tablemaid(QMainWindow):
         self.label.setPixmap(QPixmap('images/2.jpg'))
         self.label.setScaledContents(True)
         self.petNum = 0
-        self.presentation()
-
+        #self.presentation()
+    '''
     def presentation(self):
         if(self.petNum==self.max_length):
             self.petNum=0
@@ -56,7 +58,7 @@ class tablemaid(QMainWindow):
         self.label.setPixmap(self.petImage)
         self.petNum += 1
         self.label.update()
-
+    '''
 
     def setMenu(self,event):
         cmenu = QMenu(self)
@@ -90,23 +92,23 @@ class tablemaid(QMainWindow):
 
     def mouseMoveEvent(self, event):
         jud_x1 = self.x()
-        if Qt.LeftButton and self.is_follow_mouse:
+        if   Qt.LeftButton and self.is_follow_mouse:
             self.move(event.globalPos() - self.mouse_drag_pos)
             self.child.setPosition(self.x(), self.y())
+
             jud_x2 = self.x()
+
             if (jud_x1 > jud_x2):
                 self.label.setPixmap(QPixmap('./images/1.jpg'))
                 self.child.close()
             if (jud_x2 > jud_x1):
                 self.label.setPixmap(QPixmap('./images/3.jpg'))
                 self.child.close()
-        self.timer_image.stop()
-        self.timer_image.start(500)
-
+        #self.timer_image.stop()
+        #self.timer_image.start(500)
+        self.label.setPixmap(QPixmap('./images/2.jpg'))
         event.accept()
-
     #鼠标释放时, 取消绑定
-
     def mouseReleaseEvent(self, event):
         if self.is_follow_mouse==True:
             self.is_follow_mouse = False
