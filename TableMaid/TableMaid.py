@@ -9,7 +9,6 @@ import sys
 import subprocess
 import pymongo
 from dialog import datedialog
-import setting
 
 class tablemaid(QMainWindow):
     def __init__(self):
