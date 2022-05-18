@@ -9,6 +9,7 @@ import sys
 import subprocess
 import pymongo
 from dialog import datedialog
+from note import Note
 
 class tablemaid(QMainWindow):
     def __init__(self):
@@ -21,6 +22,7 @@ class tablemaid(QMainWindow):
         self.petList = ['1', '2', '3']
         self.max_length = len(self.petList)
         self.child = datedialog()
+        self.note=Note()
         # 计时器
         self.timer = QTimer()
         self.timer.timeout.connect(self.child.close)
@@ -63,6 +65,7 @@ class tablemaid(QMainWindow):
         cmenu = QMenu(self)
         #Quit = QAction('退出')
         note=cmenu.addAction("便签")
+        #note.triggered.connect()
         cmenu.addSeparator()
         setting=cmenu.addAction("设置")
         help=cmenu.addAction("反馈求助")

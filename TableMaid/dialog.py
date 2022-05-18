@@ -11,7 +11,6 @@ import subprocess
 class datedialog(QWidget):
     def __init__(self):
         super().__init__()
-        self.number=0
         self.resize(400,150)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.SubWindow)
         self.repaint()
@@ -31,10 +30,6 @@ class datedialog(QWidget):
 
     def setPosition(self,x,y):
         self.move(x-400,y+50)
-
-    def setText(self):
-        self.label.setText(str(self.number))
-        self.number=self.number+1
 
 
 
