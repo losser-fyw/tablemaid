@@ -30,13 +30,17 @@ class Note(QWidget):
         self.add.resize(400, 50)
         self.add.setMaximumHeight(50)
         self.add.clicked.connect(self.addNote)
-        self.widget=QWidget(self)
-        #self.child.button1.clicked.connect(self.addNote)
+        # self.setCentralWidget(self.widget)
+        # self.child.button1.clicked.connect(self.addNote)
+
+        self.topFiller = QWidget(self)
+        self.topFiller.setMinimumSize(350, self.number * 150)
+        self.scroll = QScrollArea(self)
+        self.scroll.setWidget(self.topFiller)
         self.vlayout = QVBoxLayout()
         self.vlayout.addWidget(self.add)
-        self.vlayout.addWidget(self.widget)
-
-        self.vlayout2=QVBoxLayout()
+        self.vlayout.addWidget(self.scroll)
+        self.vlayout2 = QVBoxLayout()
         self.vlayout2.setAlignment(Qt.AlignTop)
         self.setLayout(self.vlayout)
 
@@ -44,8 +48,9 @@ class Note(QWidget):
     def addNote(self):
         block = note_block(self.number)
         self.vlayout2.addWidget(block)
-        self.widget.setLayout(self.vlayout2)
+        self.topFiller.setLayout(self.vlayout2)
         self.number = self.number + 1
+        self.topFiller.setMinimumSize(350, self.number * 150)
         '''
         dict = {}
         dict["_id"] = self.number
@@ -152,19 +157,21 @@ class add_Note(QWidget):
 class note_block(QFrame):
     def __init__(self,id):
         super(note_block, self).__init__()
-        self.id=id
-        self.timeBar=add_Note()
+        self.id = id
         self.setFrameShape(QFrame.Box)
         self.resize(400, 160)
         self.setMaximumHeight(150)
-        layout = QVBoxLayout()
+        layout = QGridLayout()
         edit = QTextEdit(self)
         edit.resize(400, 150)
-        layout.addWidget(edit)
+        layout.addWidget(edit, 0, 0, 1, 2)
         button_time = QPushButton("时间", self)
         button_time.resize(20, 10)
-        layout.addWidget(button_time)
-        button_time.clicked.connect(self.timeBar.show)
+        layout.addWidget(button_time, 1, 0, 1, 1)
+        button_queren = QPushButton("确认", self)
+        button_queren.resize(20, 10)
+        layout.addWidget(button_queren, 1, 1, 1, 1)
+        button_time.clicked.connect(self.test)
         self.setLayout(layout)
     def test(self):
         print(self.id)
