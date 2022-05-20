@@ -177,8 +177,6 @@ class note_block(QFrame):
         mycol.delete_one({"_id":self.id})
 
 
-
-
 if __name__=="__main__":
     app=QApplication(sys.argv)
     win=Note()
