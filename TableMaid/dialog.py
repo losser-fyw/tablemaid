@@ -12,7 +12,7 @@ class datedialog(QWidget):
     def __init__(self):
         super().__init__()
         self.resize(400,150)
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.SubWindow)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.Widget | Qt.SubWindow)
         self.repaint()
         palette =QPalette()
         pix =QPixmap('images/dialog.jpeg')

@@ -36,7 +36,7 @@ class tablemaid(QMainWindow):
 
         #设置主窗口
         self.resize(200,200)
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.SubWindow)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.Widget | Qt.SubWindow)
         self.setContextMenuPolicy(Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.setMenu)
         self.repaint()
@@ -63,16 +63,15 @@ class tablemaid(QMainWindow):
 
     def setMenu(self,event):
         cmenu = QMenu(self)
-        #Quit = QAction('退出')
+
         note=cmenu.addAction("便签")
-        #note.triggered.connect()
+        note.triggered.connect(self.note.show)
         cmenu.addSeparator()
         setting=cmenu.addAction("设置")
         help=cmenu.addAction("反馈求助")
         cmenu.addSeparator()
         Quit=cmenu.addAction("退出")
-        Quit.triggered.connect(self.close)
-        Quit.triggered.connect(self.child.close)
+        Quit.triggered.connect(app.quit)
         mini=cmenu.addAction('最小化')
         cmenu.exec_(QCursor.pos())
 
