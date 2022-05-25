@@ -9,12 +9,12 @@ import sys
 import subprocess
 
 class datedialog(QWidget):
-    def __init__(self,x,y):
+    def __init__(self):
         super().__init__()
         self.resize(400,150)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Widget | Qt.SubWindow)
         self.repaint()
-        self.move(x - 400, y + 50)
+
         palette =QPalette()
         pix =QPixmap('images/dialog.jpeg')
         pix = pix.scaled(self.width(), self.height())
@@ -32,10 +32,15 @@ class datedialog(QWidget):
         self.label.setAlignment(Qt.AlignTop)
         self.label.setText('阿富汗几点回家咖啡哈哈就开始放寒假')
         self.label.setFont(_font)
+        self.button=QPushButton("关闭闹钟",self)
+        self.button.move(300,100)
+        self.button.setVisible(False)
+
 
 
     def setPosition(self,x,y):
-        self.move(x-400,y+50)
+        self.move(x,y)
+
 
 
 

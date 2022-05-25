@@ -167,6 +167,7 @@ class note_block(QFrame):
         dict["hour"] = self.timeBar.edit_hour.text()
         dict["minute"] = self.timeBar.edit_minute.text()
         dict["matter"]=self.edit.toPlainText()
+        dict["first"]=0
         m = mycol.find({"_id": self.id})
         if m != 0:
             for i in m:

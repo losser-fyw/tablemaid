@@ -5,12 +5,14 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
+
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["mydatebase"]
 mycol = mydb["notes"]
 
 class clock_alert(QWidget):
     def __init__(self):
+
         super(clock_alert,self).__init__()
         flag_alert=0
         self.initUI()
@@ -100,9 +102,8 @@ class clock_alert(QWidget):
             self.day=int(time.strftime('%d'))
             self.hour=int(time.strftime('%H'))
             self.minute=int(time.strftime('%M'))
-            if ((self.month==int(i["month"]))&(self.day==int(i["day"]))&(self.hour==int(i["hour"]))&(self.minute==int(i["minute"]))):
-                print('付一伟是大帅逼')
-                return i["matter"]
+            if ((self.month==int(i["month"]))&(self.day==int(i["day"]))&(self.hour==int(i["hour"]))&(self.minute==int(i["minute"]))&(i["first"]==0)):
+                return i["matter"],i["_id"]
             else:
                 return 0
             self.update_time()
@@ -170,9 +171,8 @@ class TrayModel(QSystemTrayIcon):
 
 
 
-
-
 if __name__=='__main__':
+
     app = QApplication(sys.argv)
     main = clock_alert()
     main.show()
