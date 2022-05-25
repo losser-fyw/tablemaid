@@ -1,8 +1,13 @@
 import time
+
+import pymongo
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
+myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+mydb = myclient["mydatebase"]
+mycol = mydb["notes"]
 
 class clock_alert(QWidget):
     def __init__(self):
@@ -73,6 +78,7 @@ class clock_alert(QWidget):
         if (self.exce_flag_clock==0):
             self.monitor_timer.start(100)
             self.monitor_timer.timeout.connect(self.monitor)
+
         else:
             print('plz check the input value')
 
@@ -85,21 +91,22 @@ class clock_alert(QWidget):
         self.minute=int(time.strftime('%M'))
         if ((self.month==int(self.month_edit.text()))&(self.day==int(self.day_edit.text()))&(self.hour==int(self.hour_edit.text()))&(self.minute==int(self.minute_edit.text()))):
             print('付一伟是大帅逼')
-        else:
-            print('付一伟真的是大帅逼')
         self.update_time()
-    '''
+
     def monitor2(self):
-        self.month=int(time.strftime('%m'))
-        self.day=int(time.strftime('%d'))
-        self.hour=int(time.strftime('%H'))
-        self.minute=int(time.strftime('%M'))
-        if ((self.month==int(self.month_edit.text()))&(self.day==int(self.day_edit.text()))&(self.hour==int(self.hour_edit.text()))&(self.minute==int(self.minute_edit.text()))):
-            print('付一伟是大帅逼')
-        else:
-            print('付一伟真的是大帅逼')
-        self.update_time()
-    '''
+        m=mycol.find()
+        for i in m:
+            self.month=int(time.strftime('%m'))
+            self.day=int(time.strftime('%d'))
+            self.hour=int(time.strftime('%H'))
+            self.minute=int(time.strftime('%M'))
+            if ((self.month==int(i["month"]))&(self.day==int(i["day"]))&(self.hour==int(i["hour"]))&(self.minute==int(i["minute"]))):
+                print('付一伟是大帅逼')
+                return i["matter"]
+            else:
+                return 0
+            self.update_time()
+
     def update_time(self):
         self.month = int(time.strftime('%m'))
         self.day = int(time.strftime('%d'))

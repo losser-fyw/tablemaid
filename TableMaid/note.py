@@ -1,6 +1,7 @@
 import time
 
 import pymongo
+from PyQt5 import QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -9,13 +10,15 @@ import sys
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["mydatebase"]
 mycol = mydb["notes"]
+
 class Note(QWidget):
     def __init__(self):
-        super().__init__()
-        #变量区
+        super(Note,self).__init__()
+       #变量区
         self.number = 0
+
         self.is_follow_mouse =False
-        self.child=timeBar()
+
 
         self.resize(400,600)
         self.setMaximumHeight(600)
@@ -25,14 +28,12 @@ class Note(QWidget):
         self.setUI()
         self.show_note()
 
-        
+
     def setUI(self):
         self.add = QPushButton("新建便签", self)
         self.add.resize(400, 50)
         self.add.setMaximumHeight(50)
         self.add.clicked.connect(self.addNote)
-        # self.setCentralWidget(self.widget)
-        # self.child.button1.clicked.connect(self.addNote)
 
         self.topFiller = QWidget(self)
         self.topFiller.setMinimumSize(350, self.number * 150)
@@ -44,6 +45,10 @@ class Note(QWidget):
         self.vlayout2 = QVBoxLayout()
         self.vlayout2.setAlignment(Qt.AlignTop)
         self.setLayout(self.vlayout)
+
+    def closeEvent(self, a0: QCloseEvent) -> None:
+        a0.ignore()
+        self.hide()
 
     def show_note(self):
         m = mycol.find()
@@ -176,9 +181,8 @@ class note_block(QFrame):
         self.deleteLater()
         mycol.delete_one({"_id":self.id})
 
-
 if __name__=="__main__":
     app=QApplication(sys.argv)
-    win=Note()
-    win.show()
+    note=Note()
+    note.show()
     sys.exit(app.exec_())
